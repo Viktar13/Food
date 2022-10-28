@@ -145,7 +145,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("scroll", showModalByScroll);
 
-  // use classes for cards
+  // 048 use classes for cards
   class MenuCard {
     constructor(src, alt, title, descr, price, parentSelector) {
       this.src = src;
