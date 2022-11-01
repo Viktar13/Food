@@ -131,7 +131,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // const modalTimerId = setTimeout(openModal, 5000);
+  const modalTimerId = setTimeout(openModal, 5000);
 
   function showModalByScroll() {
     if (
@@ -166,12 +166,12 @@ window.addEventListener("DOMContentLoaded", () => {
     render() {
       const element = document.createElement("div");
       //  console.log(this.classes);
-       if (this.classes.length === 0) {
+      if (this.classes.length === 0) {
         this.element = "menu__item";
         element.classList.add(this.element);
-       } else {
-        this.classes.forEach(className => element.classList.add(className));
-       }
+      } else {
+        this.classes.forEach((className) => element.classList.add(className));
+      }
 
       element.innerHTML = `
         <img src=${this.src} alt=${this.alt} />
@@ -197,25 +197,25 @@ window.addEventListener("DOMContentLoaded", () => {
     свежих овощей и фруктов. Продукт активных и здоровых людей. Это
     абсолютно новый продукт с оптимальной ценой и высоким качеством!`,
     9,
-    '.menu .container',
-    'menu__item',
-    'big'
+    ".menu .container",
+    "menu__item",
+    "big"
   ).render();
 
   new MenuCard(
     "img/tabs/elite.jpg",
     "elite",
-    'Меню “Премиум”',
+    "Меню “Премиум”",
     `В меню “Премиум” мы используем не только красивый дизайн упаковки,
     но и качественное исполнение блюд. Красная рыба, морепродукты,
     фрукты - ресторанное меню без похода в ресторан!`,
     27,
-    '.menu .container',
-    'menu__item'
+    ".menu .container",
+    "menu__item"
   ).render();
 
   new MenuCard(
-    "img/tabs/post.jpg", 
+    "img/tabs/post.jpg",
     "post",
     'Меню "Постное"',
     `Меню “Постное” - это тщательный подбор ингредиентов: полное
@@ -223,7 +223,65 @@ window.addEventListener("DOMContentLoaded", () => {
     овса, кокоса или гречки, правильное количество белков за счет тофу
     и импортных вегетарианских стейков.`,
     13,
-    '.menu .container',
-    'menu__item'
+    ".menu .container",
+    "menu__item"
   ).render();
+
+  // Forms
+
+  const forms = document.querySelectorAll("form");
+
+  const message = {
+    loading: "Loding",
+    success: "Thank you! Wi will contact you soon!",
+    failure: "Something went wrong!",
+  };
+
+  forms.forEach(item => {
+    postData(item);
+  });
+
+  function postData(form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = message.loading;
+      form.append(statusMessage);
+
+      const request = new XMLHttpRequest();
+      request.open('POST', 'server.php');
+
+      //  !!! Пры выкарыстанні звязкі XMLHttpRequest + FormData, setRequestHeader непатрэбны!!!
+       
+      // request.setRequestHeader('Content-type', 'multipart/form-data');
+      request.setRequestHeader('Content-type', 'application/json');
+      const formData = new FormData(form);
+
+      const object = {};
+
+      formData.forEach((value, key) => {
+        object[key] = value;
+      });
+
+      const json = JSON.stringify(object);
+      request.send(json);
+      // request.send(formData);
+
+      request.addEventListener('load', () => {
+        if (request.status === 200) {
+          console.log(request.response);
+          statusMessage.textContent = message.success;
+
+          form.reset();
+          setTimeout(() => {
+            statusMessage.remove();
+          }, 2000);
+        } else {
+          statusMessage.textContent = message.failure;
+        }
+      });
+    });
+  }
 });
