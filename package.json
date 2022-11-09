@@ -1,0 +1,22 @@
+{
+  "name": "foodprodject",
+  "version": "1.0.0",
+  "description": "prodject about tasty and healthy food",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Viktar13/Food.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Viktar13/Food/issues"
+  },
+  "homepage": "https://github.com/Viktar13/Food#readme",
+  "devDependencies": {
+    "json-server": "^0.17.1"
+  }
+}
