@@ -22,16 +22,5 @@
       "price": 21
     }
   ],
-  "requests": [
-    {
-      "name": "first far",
-      "phone": "2364945",
-      "id": 1
-    },
-    {
-      "name": "jdytjyikytjk",
-      "phone": "2386383682563",
-      "id": 2
-    }
-  ]
+  "requests": []
 }
