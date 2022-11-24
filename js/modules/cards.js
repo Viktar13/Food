@@ -1,3 +1,5 @@
+import {getResource} from "../services/services";
+
 function cards() {
   class MenuCard {
     constructor(src, alt, title, descr, price, parentSelector, ...classes) {
@@ -39,38 +41,37 @@ function cards() {
     }
   }
 
-  const getResource = async (url) => {
-    const result = await fetch(url);
-
-    if (!result.ok) {
-      throw new Error(`Could not fetch ${url}, status ${result.status}`);
-    }
-
-    return await result.json();
-  };
-
-  getResource("http://localhost:3000/menu").then((data) => createCard(data));
-
-  function createCard(data) {
-    data.forEach(({ img, altimg, title, descr, price }) => {
-      const elem = document.createElement("div");
-
-      elem.classList.add("menu__item");
-
-      elem.innerHTML = `
-            <img src=${img} alt=${altimg} />
-            <h3 class="menu__item-subtitle">${title}</h3>
-            <div class="menu__item-descr">${descr}</div>
-            <div class="menu__item-divider"></div>
-            <div class="menu__item-price">
-              <div class="menu__item-cost">Цена:</div>
-              <div class="menu__item-total"><span>${price}</span> тал/день</div>
-            </div>
-          `;
-
-      document.querySelector(".menu .container").append(elem);
+  getResource("http://localhost:3000/menu")
+  .then(data => {
+    data.forEach(({img, altimg, title, descr, price}) => {
+      new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
     });
-  }
+  });
+
+
+
+  // getResource("http://localhost:3000/menu").then((data) => createCard(data));
+
+  // function createCard(data) {
+  //   data.forEach(({ img, altimg, title, descr, price }) => {
+  //     const elem = document.createElement("div");
+
+  //     elem.classList.add("menu__item");
+
+  //     elem.innerHTML = `
+  //           <img src=${img} alt=${altimg} />
+  //           <h3 class="menu__item-subtitle">${title}</h3>
+  //           <div class="menu__item-descr">${descr}</div>
+  //           <div class="menu__item-divider"></div>
+  //           <div class="menu__item-price">
+  //             <div class="menu__item-cost">Цена:</div>
+  //             <div class="menu__item-total"><span>${price}</span> тал/день</div>
+  //           </div>
+  //         `;
+
+  //     document.querySelector(".menu .container").append(elem);
+  //   });
+  // }
 }
 
-module.exports = cards;
+export default cards;
